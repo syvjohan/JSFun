@@ -19,19 +19,96 @@ $(document).ready(function(){
 	});
 
 	function getBooks(keyword, option) {
-	$.ajax({
+		$.ajax({
 			type: 'get',
 			url: "../controller/books.php",
 			cache: false,
 			data: { 'keyword' : keyword,
 					'option' : option },
-			success: function (response) {
-				console.log("response",response);
+			success: function(response) {
+				if (response) {
+					console.log(response);
+					extractBooks(response);
+				}
 			},
 			error : function() {
-				console.log("error getBooks..");
+				//console.log("error getBooks..");
 			}
 		});
 	}
 
+	function getBooksLen(books) {
+		var e = books.lastIndexOf(']');
+		var s = books.lastIndexOf(',');
+		return books.substring(s +1, e);
+	}
+
+	function extractBooks(books) {
+		console.log(books);
+		var len = getBooksLen(books);
+		if (len >= 0) {
+			var bookStart = 0;
+		var bookEnd = 0;
+		var c = 0;
+		do {
+			bookStart = books.indexOf('[', bookEnd +1);
+			bookEnd = books.indexOf(']', bookStart +1);
+			var book = books.substring(bookStart +1, bookEnd);
+
+			var id;
+			var author;
+			var title;
+			var category;
+
+			var start = 0;
+			var end = -1;
+			var count = 0;
+			var d = 0;
+			do {
+				start = book.indexOf('"', end +1);
+				end = book.indexOf('"', start +1);
+				var item = book.substring(start +1, end);
+				if (count == 0) {
+					id = item;
+					++count;
+				} else if (count == 1) {
+					title = item;
+					++count;
+				} else if (count == 2) {
+					author = item;
+					++count;
+				} else if (count == 3) {
+					category = item;
+					++count;
+				} 
+				++d;
+			} while(d != 4);
+			count = 0;
+			insertRow(id, title, author, category);
+
+			++c;
+		} while(c != len);
+
+		insertTableHead();
+		}
+	}
+
+	function insertTableHead() {
+		var table = document.getElementById('showBooks');
+		var header = table.createTHead();
+		var newRow = header.insertRow(0); 
+
+		newRow.insertCell(0).innerHTML = "<b>Author</b>";
+		newRow.insertCell(1).innerHTML = "<b>Title</b>";
+		newRow.insertCell(2).innerHTML = "<b>Category</b>";
+	}
+
+	function insertRow(id, title, author, category) {
+		var table = document.getElementById('showBooks');
+		var newRow = table.insertRow(table.rowIndex +1);
+
+		newRow.insertCell(0).innerHTML = author;
+		newRow.insertCell(1).innerHTML = title;
+		newRow.insertCell(2).innerHTML = category;
+	}
 });

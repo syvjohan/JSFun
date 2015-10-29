@@ -10,7 +10,7 @@
 		}
 
 		private function fillContainerBooks() {
-			$this->containerBooks[] = "INSERT INTO books VALUES (NULL, 'Otroligt hogt och extremt djupt', 'Annelie Pompe', 'Vetenskapliga bocker')";
+			$this->containerBooks[] = "INSERT INTO books VALUES (NULL, 'Otroligt hogt och extremt djupt', 'Annelie Pompe', 'Vetenskap')";
 			$this->containerBooks[] = "INSERT INTO books VALUES (NULL, 'Mordar-Anders och hans vanner', 'Jonas Jonasson', 'Biografier')";
 			$this->containerBooks[] = "INSERT INTO books VALUES (NULL, 'Sno kan brinna', 'Katarina Mazetti', 'Skonlitteratur')";
 		}	

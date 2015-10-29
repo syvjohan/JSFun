@@ -2,7 +2,6 @@
 	Include "testData.php";
 
 	class setup {
-
 		private $conn = null;
 
 		public function __construct() {}
@@ -57,7 +56,8 @@
 
 		//General function for getting data from database, all get request goes through here
 		public function get($query) {
-			mysqli_query($this->conn, $query) or die("GET query failed");
+			$container = mysqli_query($this->conn, $query) or die("GET query failed");
+			return $container;
 		}
 
 		//General function for posting new data into database all posting request goest through here.

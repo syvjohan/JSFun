@@ -1,45 +1,74 @@
 <?php
 	include "../model/setup.php";
+	include "../model/book.php";
 
 	if(isset($_GET['keyword'])) {
 		$keyword = $_GET['keyword'];
 		$option = $_GET['option'];
-
+		getBooks($keyword, $option);
 	}
 
 	function getBooks($keyword, $option) {
 		$setup = new setup;
 		$setup->connectToDb();
 
-		$result = "";
+		$books = NULL;
 
 		if ($option == "title") {
-			$result = $setup->get("SELECT * FROM books WHERE title = '$option'");
+			$container = $setup->get("SELECT * FROM books WHERE title='$keyword'");
+			$books = toArray($container);
 		} 
 		else if ($option == "keyword") {
 			$collection = $setup->get("SELECT * FROM books");
-
-			$i = 0;
-			foreach ($collection as $c) {
-				if (preg_match('/$option/', $c.title)) {
-					$result[i] = $c;
-					$i += 1;
+			$books = NULL;
+			$count = 0;
+			if ($collection->num_rows > 0) {
+				 while($row = $collection->fetch_assoc()) {
+					if (findWord($row["title"], $keyword)) {
+						$arr = array($row["id"], $row["title"], $row["author"], $row["category"]);
+						$books[] = $arr;
+						++$count;
+					}
 				}
+				$books[] = $count;
 			}
 		} 
 		else if ($option == "category") {
-			$result = $setup->get("SELECT * FROM books WHERE category = '$option");
+			$container = $setup->get("SELECT * FROM books WHERE category='$keyword'");
+			$books = toArray($container);
 		} 
 		else if ($option == "all") {
-			$result = $setup->get("SELECT * FROM books");
-		}
-		
+			$container = $setup->get("SELECT * FROM books");
+			$books = toArray($container);
+		} 
+
 		$setup->closeConnection();
 
-		if ($result == "") {
-			return false;
+		echo json_encode($books);
+	}
+
+	function toArray($container) {
+		$books = NULL;
+		$count = 0;
+		if ($container->num_rows > 0) {
+				 while($row = $container->fetch_assoc()) {
+        			$arr = array($row["id"], $row["title"], $row["author"], $row["category"]);
+        			$books[] = $arr;
+        			++$count;
+        		}
+			}
+			$books[] = $count;
+		return $books;
+	}
+
+	function findWord($searchStr, $findWord) {
+		$searchStr = strtolower($searchStr);
+		$findWord = strtolower($findWord);
+		var_dump($searchStr, $findWord);
+		if (strpos($searchStr, $findWord, 0) !== false) {
+			return true;
 		}
-		return $result;
+		return false;
 	}
 
 ?>
