@@ -6,7 +6,7 @@
 
 		public function __construct() {}
 
-		public function init() {
+		public function reset() {
 			$this->deleteAllContent();
 			$this->insertDefaultData();
 			$this->redirectBackToLoginPage();
@@ -36,8 +36,8 @@
 			$this->closeConnection();
 		}
 
-		public function connectToDb() {
-			$this->conn = mysqli_connect('localhost', 'root', '', 'minilibris') or die("Could not connect");
+		private function connectToDb() {
+			$this->conn = mysqli_connect('localhost', 'root', 'pwdlocalhost', 'minilibris') or die("Could not connect");
 		}
 
 		private function insertIntoDb() {
@@ -45,27 +45,32 @@
 
 			$dataPersons = $data->getPersonsData();
 			foreach ($dataPersons as $item) {
-				$this->post($item);
+				mysqli_query($this->conn, $item) or die("POST query failed");
 			}
 
 			$dataBooks = $data->getBooksData();
 			foreach ($dataBooks as $item) {
-				$this->post($item);
+				mysqli_query($this->conn, $item) or die("POST query failed");
 			}
 		}
 
-		//General function for getting data from database, all get request goes through here
+		//General function for getting data from database. Does not include reseting Db
 		public function get($query) {
-			$container = mysqli_query($this->conn, $query) or die("GET query failed");
-			return $container;
+			$this->connectToDb();
+			$result = mysqli_query($this->conn, $query) or die("GET query failed");
+			$this->closeConnection();
+			return $result;
 		}
 
-		//General function for posting new data into database all posting request goest through here.
+		//General function for posting new data into database. Does not include reseting Db.
 		public function post($query) {
-			mysqli_query($this->conn, $query) or die("POST query failed");
+			$this->connectToDb();
+			$result = mysqli_query($this->conn, $query) or die("POST query failed");
+			$this->closeConnection();
+			return $result;
 		}
 
-		public function closeConnection() {
+		private function closeConnection() {
 			mysqli_close($this->conn);
 		}
 	}

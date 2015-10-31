@@ -1,8 +1,7 @@
 <?php
 	include "../model/setup.php";
-	include "../model/book.php";
 
-	if(isset($_GET['keyword'])) {
+	if(!empty($_GET['keyword'])) {
 		$keyword = $_GET['keyword'];
 		$option = $_GET['option'];
 		getBooks($keyword, $option);
@@ -10,7 +9,6 @@
 
 	function getBooks($keyword, $option) {
 		$setup = new setup;
-		$setup->connectToDb();
 
 		$books = NULL;
 
@@ -42,8 +40,6 @@
 			$books = toArray($container);
 		} 
 
-		$setup->closeConnection();
-
 		echo json_encode($books);
 	}
 
@@ -51,20 +47,20 @@
 		$books = NULL;
 		$count = 0;
 		if ($container->num_rows > 0) {
-				 while($row = $container->fetch_assoc()) {
-        			$arr = array($row["id"], $row["title"], $row["author"], $row["category"]);
-        			$books[] = $arr;
-        			++$count;
-        		}
-			}
-			$books[] = $count;
+			 while($row = $container->fetch_assoc()) {
+    			$arr = array($row["id"], $row["title"], $row["author"], $row["category"]);
+    			$books[] = $arr;
+    			++$count;
+    		}
+		}
+		$books[] = $count;
+		
 		return $books;
 	}
 
 	function findWord($searchStr, $findWord) {
 		$searchStr = strtolower($searchStr);
 		$findWord = strtolower($findWord);
-		var_dump($searchStr, $findWord);
 		if (strpos($searchStr, $findWord, 0) !== false) {
 			return true;
 		}

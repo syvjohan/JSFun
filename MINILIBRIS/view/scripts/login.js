@@ -20,10 +20,10 @@ $(document).ready(function(){
 			cache: false,
 			data: { 'resetDb' : 1 },
 			success: function (response) {
-				alert("Database has been reseted to default!");
+					alert("Database has been reseted to default!");			
 			},
 			error : function() {
-				console.log("error: resetDbToDefault");
+				document.getElementById('errorMsgLogin').innerHTML = "Could not reset database";
 			}
 		});
 	})
@@ -33,20 +33,30 @@ $(document).ready(function(){
 		document.getElementById('password').value = "";
 	}
 
-	function doUserExist(uname, pwd) {
+	function doUserExist(username, password) {
 		$.ajax({
 			type: 'get',
 			url: "../controller/persons.php",
 			cache: false,
-			data: { 'username' : uname,
-					'password' : pwd },
+			data: { 'username' : username,
+					'password' : password },
 			success: function (response) {
-				//goto order.
-				document.location.href = "../view/order.html";
+				console.log(response);
+				if (response) {
+					if (response == 1) {
+						document.location.href = "../view/search.html";
+					} else {
+						document.getElementById('errorMsgLogin').innerHTML = "Wrong username and password!";
+						resetInput(username, password);
+					}
+				} else {
+					document.getElementById('errorMsgLogin').innerHTML = "Could not localize user in database";
+					resetInput(username, password);
+				}
 			},
 			error : function() {
-				document.getElementById('errorMsgLogin').innerHTML = "Could not localize user in database";
-				resetInput(uname, pwd);
+				document.getElementById('errorMsgLogin').innerHTML = "Could not connect to database";
+				resetInput(username, password);
 			}
 		});
 	}

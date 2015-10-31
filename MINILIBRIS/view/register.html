@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>	 	
-		<script type="text/javaScript" src="../controller/register.js"></script>
+		<script type="text/javaScript" src="../view/scripts/register.js"></script>
 
 		<title>Welcome to register new user</title>
 		<h1>Register a new user</h1>
@@ -11,31 +11,32 @@
 		<div class="register">
 			<table>
 				<tr>
-					<td>FirstName</td>
-					<td><input type="text" name="firstName"></td>
+					<td>Firstname</td>
+					<td><input type="text" id="firstname" value="johan"></td>
 				</tr>
 				<tr>
 					<td>Lastname</td>
-					<td><input type="text" name="lastName"></td>
+					<td><input type="text" id="lastname" value="frediksson"></td>
 				</tr>
 				<tr>
 					<td>Address</td>
-					<td><input type="text" name="address"></td>
+					<td><input type="text" id="address" value="Berguvsgatan 4B"></td>
 				</tr>
 				<tr>
 					<td>Phonenumber</td>
-					<td><input type="text" name="phonenumber"></td>
+					<td><input type="text" id="phonenumber" value="0708658956"></td>
 				</tr>
 				<tr>
 					<td>Username</td>
-					<td><input type="text" name="username"></td>
+					<td><input type="text" id="username" value="syvjohan"></td>
 				</tr>
 				<tr>
 					<td>Password</td>
-					<td><input type="text" name="password"></td>
+					<td><input type="text" id="password" value="test474ffKK"></td>
 				</tr>
 				<tr>
-					<td><input type="submit" name="btnRegister" value="Register" onclick="doRegistration()"></td>
+					<p id="errorMsgRegister"></p>
+					<td><input type="submit" id="btnRegister" value="Register"></td>
 				</tr>
 			</table>
 		</div>
