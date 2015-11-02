@@ -27,7 +27,7 @@
 		private function eraseContent() {
 			mysqli_query($this->conn, "DELETE FROM books") or die("Query failed, erase books content");
 			mysqli_query($this->conn, "DELETE FROM persons") or die("Query failed, erase books content");
-			//mysqli_query($this->conn, "DELETE FROM order") or die("Query failed, erase order content");
+			mysqli_query($this->conn, "DELETE FROM orders") or die("Query failed, erase order content");
 		}
 
 		public function insertDefaultData() {
@@ -45,19 +45,24 @@
 
 			$dataPersons = $data->getPersonsData();
 			foreach ($dataPersons as $item) {
-				mysqli_query($this->conn, $item) or die("POST query failed");
+				mysqli_query($this->conn, $item) or die("POST query failed(persons)");
 			}
 
 			$dataBooks = $data->getBooksData();
 			foreach ($dataBooks as $item) {
-				mysqli_query($this->conn, $item) or die("POST query failed");
+				mysqli_query($this->conn, $item) or die("POST query failed(books)");
+			}
+			
+			$dataOrders = $data->getOrdersData();
+			foreach ($dataOrders as $item) {
+				mysqli_query($this->conn, $item) or die("POST query failed(orders)");
 			}
 		}
 
 		//General function for getting data from database. Does not include reseting Db
 		public function get($query) {
 			$this->connectToDb();
-			$result = mysqli_query($this->conn, $query) or die("GET query failed");
+			$result = mysqli_query($this->conn, $query);
 			$this->closeConnection();
 			return $result;
 		}
@@ -65,7 +70,7 @@
 		//General function for posting new data into database. Does not include reseting Db.
 		public function post($query) {
 			$this->connectToDb();
-			$result = mysqli_query($this->conn, $query) or die("POST query failed");
+			$result = mysqli_query($this->conn, $query);
 			$this->closeConnection();
 			return $result;
 		}

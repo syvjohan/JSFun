@@ -3,10 +3,12 @@
 	class testData {
 		private $containerBooks = array();
 		private $containerPersons = array();
+		private $containerOrders = array();
 
 		public function __construct() {
 			$this->fillContainerBooks();
 			$this->fillContainerPersons();
+			$this->fillContainerOrders();
 		}
 
 		private function fillContainerBooks() {
@@ -21,12 +23,20 @@
 			$this->containerPersons[] = "INSERT INTO persons VALUES ('syvnils', 'nilstest', 'nils', 'larsson', 'hallonstigen 33C', '07023157577')";
 		}
 
+		private function fillContainerOrders() {
+			$this->containerOrders[] = "INSERT INTO orders VALUES (NULL, 'syvjohan', '1', '2012-05-10', '2012-05-25')";
+		}
+
 		public function getBooksData() {
 			return $this->containerBooks;
 		}
 
 		public function getPersonsData() {
 			return $this->containerPersons;
+		}
+
+		public function getOrdersData() {
+			return $this->containerOrders;
 		}
 	}
 

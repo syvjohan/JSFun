@@ -14,7 +14,6 @@ $(document).ready(function(){
 					if (onlyDigits(phone) && phone.length >= 10) {
 						if (evalUsername(uname)) {
 							if (evalPassword(pwd)) {
-								console.log("hej");
 								registerNewUser(fname, lname, address, phone, uname, pwd);
 							} else {
 								document.getElementById('errorMsgRegister').innerHTML = "Password shall contain: small, large letters, digits and length >= 6)";
@@ -86,7 +85,6 @@ $(document).ready(function(){
 			data: { 'usernameExist' : usernameExist },
 			success: function (response) {
 				if (response) {
-					console.log(response);
 					if (response == 1) {
 						return true;
 					} else {
@@ -115,6 +113,7 @@ $(document).ready(function(){
 				if (response) {
 					document.getElementById('errorMsgRegister').innerHTML = "Username already exist!";
 				} else {
+					setCookie("username", uname, 1)
 					document.location.href = "../view/search.html";
 				}
 			},
@@ -125,4 +124,14 @@ $(document).ready(function(){
 		});
 	}
 
+	function setCookie(cookieName, cookieValue, nDays) {
+		var today = new Date();
+		var expire = new Date();
+		if (nDays==null || nDays==0) {
+			 nDays=1;
+		}
+		expire.setTime(today.getTime() + 3600000*24*nDays);
+		document.cookie = cookieName+"="+escape(cookieValue)
+            + ";expires="+expire.toGMTString();
+	}
 });

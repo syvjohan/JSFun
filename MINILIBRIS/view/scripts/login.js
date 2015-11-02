@@ -41,9 +41,9 @@ $(document).ready(function(){
 			data: { 'username' : username,
 					'password' : password },
 			success: function (response) {
-				console.log(response);
 				if (response) {
 					if (response == 1) {
+						setCookie("username", username, 1)
 						document.location.href = "../view/search.html";
 					} else {
 						document.getElementById('errorMsgLogin').innerHTML = "Wrong username and password!";
@@ -59,5 +59,16 @@ $(document).ready(function(){
 				resetInput(username, password);
 			}
 		});
+	}
+
+	function setCookie(cookieName, cookieValue, nDays) {
+		var today = new Date();
+		var expire = new Date();
+		if (nDays==null || nDays==0) {
+			 nDays=1;
+		}
+		expire.setTime(today.getTime() + 3600000*24*nDays);
+		document.cookie = cookieName+"="+escape(cookieValue)
+            + ";expires="+expire.toGMTString();
 	}
 });

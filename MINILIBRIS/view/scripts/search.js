@@ -25,8 +25,24 @@ $(document).ready(function(){
 	$('tr').live('click', function() {
 		var clickedRow = $(this).index();
      	var table = document.getElementById('showBooks');
-     	console.log(table.rows[clickedRow +1].cells[0].innerHTML);
+     	var bookId = table.rows[clickedRow +1].cells[0].innerHTML;
+     	
+     	setCookie("bookId", bookId, 1);
+
+     	document.location.href = "../view/order.html";
      });
+
+	function setCookie(cookieName,cookieValue,nDays) {
+		var oldCookieVal = document.cookie;
+		var today = new Date();
+		var expire = new Date();
+		if (nDays==null || nDays==0) {
+			 nDays=1;
+		}
+		expire.setTime(today.getTime() + 3600000*24*nDays);
+		document.cookie = cookieName+"="+escape(cookieValue) + ';' + escape(oldCookieVal)
+            + ";expires="+expire.toGMTString();
+	}
 
 	function getBooks(keyword, option) {
 		$.ajax({
@@ -54,7 +70,6 @@ $(document).ready(function(){
 	}
 
 	function extractBooks(books) {
-		console.log(books);
 		var len = getBooksLen(books);
 		if (len >= 0) {
 			var bookStart = 0;

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+		<title>Welcome to order books</title>
+		<h1>Order book</h1>
+	</head>
+	<body>
+	<table class="information">
+		<tr>
+			<th><b>First name: </b></th>
+			<td id="firstname"></td>
+		</tr>
+		<tr>
+			<th><b>Last name: </b></th> 
+			<td id="lastname"></td>
+		</tr>
+		<tr>
+			<th><b>Address:  </b></th>		
+			<td id="address"></td>
+		</tr>
+		<tr>
+			<th><b>Book title: </b></th> 	
+			<td id="bookTitle"></td> 
+		</tr>
+		<tr>
+			<th><b>Collection date: </b></th> 	
+			<td id="collectionDate"></td>
+		</tr>
+		<tr>
+			<th><b>Return date: </b></th> 	
+			<td id="returnDate"></td>
+		</tr>
+	</table>
+
+	<div id="btn" style="visibility:hidden">
+		<br><br><input type="submit" id="btnAccept" value="accept">
+		<input type="submit" id="btnDecline" value="Decline">
+	</div>
+
+	<p id="confirmationMsg">
+	<p id="errorMsgOrder">
+
+		<script type="text/javaScript" src="../view/scripts/order.js"></script>
+	</body>
+</html>
